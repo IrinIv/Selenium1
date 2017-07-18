@@ -8,13 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
-
-/**
- * Created by Irina on 7/17/17.
- */
-public class MyFirstTest {
-
+public class LoginTest {
   private WebDriver driver;
   private WebDriverWait wait;
 
@@ -23,24 +17,23 @@ public class MyFirstTest {
     driver = new ChromeDriver();
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     wait = new WebDriverWait(driver, 10);
-
   }
 
-  @Test
-  public void testMyFirst() {
+    @Test
+    public void testLogin() {
 
-    driver.get("http://google.com");
-    driver.findElement(By.name("q")).sendKeys("webdriver");
-    //wait.until(visibilityOfElementLocated(By.name("btnG")));
-    driver.findElement(By.name("btnG")).click();
-    wait.until(titleIs("webdriver - Google Search"));
+      driver.get("http://localhost/litecart/admin/login.php");
+      driver.findElement(By.name("username")).sendKeys("admin");
+      driver.findElement(By.name("username")).click();
+      driver.findElement(By.name("password")).click();
+      driver.findElement(By.name("password")).sendKeys("admin");
+      driver.findElement(By.name("login")).click();
+    }
 
+    @After
+    public void stop() {
+      driver.quit();
+      driver = null;
+    }
   }
 
-  @After
-  public void stop() {
-    driver.quit();
-    driver = null;
-  }
-
-}
