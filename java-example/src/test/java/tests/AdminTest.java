@@ -19,6 +19,7 @@ public class AdminTest extends TestBase {
   public void testAdminPanel() {
 
     login();
+    getTitleListIsPresent();
     //assertEquals(title, ("%s"));
 
 
