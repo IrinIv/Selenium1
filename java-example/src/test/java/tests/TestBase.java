@@ -1,6 +1,7 @@
 package tests;
 
 import apmanager.AppManager;
+import model.Titles;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -8,6 +9,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IrinaIv on 7/20/2017.
@@ -26,9 +30,9 @@ public class TestBase {
     try {
       driver.findElement(locator);
       return true;
+    } catch (NoSuchElementException ex) {
+      return false;
     }
-    catch (NoSuchElementException ex) {
-      return false;}
   }
 
 
@@ -56,4 +60,20 @@ public class TestBase {
   protected String getH1() {
     return goToRightPage().findElement(By.tagName("h1")).getText();
   }
+
+
+//  public List<Titles> getTitleList() {
+//    List<Titles> titles = new ArrayList<Titles>();
+//    List<WebElement> elements = app.getSessionHelper().driver.findElements(By.xpath("//ul[@id='box-apps-menu']"));
+//    for (WebElement element : elements) {
+//      WebElement name = element.findElement(By.xpath(".//*[@class='name']"));
+//      name.click();
+//      String title = goToRightPage().findElement(By.tagName("h1")).getText();
+//      System.out.println(title);
+//      Titles titl = new Titles(title);
+//      titles.add(titl);
+//    }
+//      return titles;
+
+//  }
 }

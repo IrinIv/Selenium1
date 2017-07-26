@@ -3,6 +3,10 @@ package tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -15,6 +19,10 @@ public class AdminTest extends TestBase {
   public void testAdminPanel() {
 
     login();
+    //getTitleList();
+    //assertEquals(title, ("%s"));
+
+
     WebElement appear = getWebElementBox().findElement(By.xpath(".//*[@class='name'][text()='Appearence']"));
     appear.click();
     String template = getH1();
@@ -249,7 +257,7 @@ public class AdminTest extends TestBase {
     vQmods.click();
     String vQmod = getH1();
     assertEquals(vQmod, ("vQmods"));
-    
+
 
   }
 
