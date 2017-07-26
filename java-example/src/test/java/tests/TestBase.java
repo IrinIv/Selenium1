@@ -7,11 +7,15 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.BrowserType;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 /**
  * Created by IrinaIv on 7/20/2017.
@@ -62,18 +66,35 @@ public class TestBase {
   }
 
 
-//  public List<Titles> getTitleList() {
-//    List<Titles> titles = new ArrayList<Titles>();
-//    List<WebElement> elements = app.getSessionHelper().driver.findElements(By.xpath("//ul[@id='box-apps-menu']"));
-//    for (WebElement element : elements) {
-//      WebElement name = element.findElement(By.xpath(".//*[@class='name']"));
-//      name.click();
-//      String title = goToRightPage().findElement(By.tagName("h1")).getText();
-//      System.out.println(title);
-//      Titles titl = new Titles(title);
-//      titles.add(titl);
-//    }
-//      return titles;
+  protected void getTitleListIsPresent() {
+    List<WebElement> elements = app.getSessionHelper().driver.findElements(By.xpath("//ul[@id='box-apps-menu']"));
+    for (WebElement element : elements) {
 
-//  }
+      WebElement point = element.findElement(By.xpath(String.format(".//li[@id='app-']//*[@class='name']")));
+      point.click();
+      app.getSessionHelper().driver.navigate().refresh();
+      //WebElement item = point.findElement(By.xpath(".//*[@class='name']"));
+      //item.click();
+      //WebElement name = point.findElement(By.xpath(String.format(".//*[contains(text(), \'%s\')]", element.getText())));
+      //name.click();
+
+      String Title = goToRightPage().findElement(By.tagName("h1")).getText();
+      System.out.println(Title);
+    }
+
+  }
+
+
+  protected void getStickersIsPresent() {
+    List<WebElement> elements = app.getSessionHelper().driver.findElements(By.xpath("//div[@class='image-wrapper']"));
+    for (WebElement element : elements) {
+
+      List<WebElement> stickers = element.findElements(By.xpath(".//div[starts-with(@class,'sticker')]"));
+      WebElement name = element.findElement(By.xpath(".//div[starts-with(@class,'sticker')]"));
+      Assert.assertEquals(1, stickers.size());
+      System.out.println(name.getText());
+    }
+  }
+
+
 }
