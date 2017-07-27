@@ -7,6 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -67,21 +68,20 @@ public class TestBase {
 
 
   protected void getTitleListIsPresent() {
-    List<WebElement> elements = app.getSessionHelper().driver.findElements(By.xpath("//ul[@id='box-apps-menu']"));
-    for (WebElement element : elements) {
-
-      WebElement point = element.findElement(By.xpath(String.format(".//li[@id='app-']//*[@class='name']")));
-      point.click();
-      app.getSessionHelper().driver.navigate().refresh();
-      //WebElement item = point.findElement(By.xpath(".//*[@class='name']"));
-      //item.click();
-      //WebElement name = point.findElement(By.xpath(String.format(".//*[contains(text(), \'%s\')]", element.getText())));
-      //name.click();
-
-      String Title = goToRightPage().findElement(By.tagName("h1")).getText();
-      System.out.println(Title);
+    List<WebElement> menuItems = app.getSessionHelper().driver.findElements(By.id("app-"));
+    for (int i = 1; i <= menuItems.size(); i++) {
+      WebElement item = app.getSessionHelper().driver.findElement(By.cssSelector(String.format("#box-apps-menu > li:nth-child(%s)", i)));
+      item.click();
+      app.getSessionHelper().driver.findElement(By.cssSelector("#content h1"));
+      List<WebElement> innerItems = app.getSessionHelper().driver.findElements(By.cssSelector(".docs > li"));
+      if (innerItems.size() > 0) {
+        for (int j = 1; j <= innerItems.size(); j++) {
+          WebElement innerItem = app.getSessionHelper().driver.findElement(By.cssSelector(String.format(".docs > li:nth-child(%s)", j)));
+          innerItem.click();
+          app.getSessionHelper().driver.findElement(By.cssSelector("#content h1"));
+        }
+      }
     }
-
   }
 
 
