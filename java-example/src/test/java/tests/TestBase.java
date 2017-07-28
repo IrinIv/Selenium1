@@ -1,22 +1,18 @@
 package tests;
 
 import apmanager.AppManager;
-import model.Titles;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.BrowserType;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 /**
  * Created by IrinaIv on 7/20/2017.
@@ -62,9 +58,9 @@ public class TestBase {
     app.getSessionHelper().driver.findElement(By.name("login")).click();
   }
 
-  protected String getH1() {
-    return goToRightPage().findElement(By.tagName("h1")).getText();
-  }
+  //protected String getH1() {
+  //  return goToRightPage().findElement(By.tagName("h1")).getText();
+  //}
 
 
   protected void getTitleListIsPresent() {
@@ -97,4 +93,38 @@ public class TestBase {
   }
 
 
+  protected void goToCountriesPage() {
+    app.getSessionHelper().driver.findElement(By.cssSelector("#box-apps-menu > li:nth-child(3)")).click();
+    app.getSessionHelper().driver.findElement(By.cssSelector("tr:nth-child(n) > td:nth-child(3)"));
+  }
+
+  protected void getCountriesList() {
+    List<WebElement> countries = app.getSessionHelper().driver.findElements(By.cssSelector("tr.row"));
+    for (WebElement element : countries ) {
+      List<WebElement> names = element.findElements(By.cssSelector(".row > td > a"));
+      WebElement name1 = element.findElement(By.cssSelector(".row > td > a"));
+      List<String> oldNames = new ArrayList<String>();
+      oldNames.add(name1.getText());
+      WebElement name2 = element.findElement(By.cssSelector(".row > td > a"));
+      List<String> sortedNames = new ArrayList<String>();
+      sortedNames.add(name2.getText());
+      Collections.sort(sortedNames, String.CASE_INSENSITIVE_ORDER);
+
+      Assert.assertEquals(oldNames, sortedNames);
+
+    }
+  }
+
+  protected void getZonesList() {
+    List<WebElement> zones = app.getSessionHelper().driver.findElements(By.cssSelector("tr.row > td:nth-child(6)"));
+    for (WebElement element : zones) {
+      if (element != null ) {
+        element.click();
+
+      }
+    }
+
+  }
 }
+
+//tr:nth-child(2) > td:nth-child(6) - zones
