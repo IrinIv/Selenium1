@@ -1,9 +1,10 @@
 package tests;
 
 import apmanager.AppManager;
-
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -117,7 +118,6 @@ public class TestBase {
   protected void getZoneList() {
     List<WebElement> zones = app.getSessionHelper().driver.findElements(By.cssSelector(".dataTable > tbody > tr.row"));
     for (WebElement element : zones) {
-
       List<WebElement> zon = element.findElements(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(6)"));
       WebElement z = element.findElement(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(6)"));
       z.getText();
@@ -146,10 +146,42 @@ public class TestBase {
         app.getSessionHelper().driver.navigate().back();
       }
 
+    }
+
+  }
+
+  protected void goToGeoZones() {
+    List<WebElement> countries = app.getSessionHelper().driver.findElements(By.cssSelector(".dataTable > tbody > tr.row"));
+    for (WebElement element : countries) {
+      List<WebElement> countr = element.findElements(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(4)"));
+      WebElement z = element.findElement(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(4)"));
+      List<WebElement> edit = element.findElements(By.cssSelector("i.fa.fa-pencil"));
+      WebElement zone = element.findElement(By.cssSelector("i.fa.fa-pencil"));
+      zone.click();
+      List<WebElement> innerzones = app.getSessionHelper().driver.findElements(By.cssSelector("#table-zones > tbody > tr"));
+
+      for (int j = 2; j < innerzones.size(); j++) {
+
+        List<WebElement> inzon = app.getSessionHelper().driver.findElements(By.cssSelector("[name^=zones]"));
+        WebElement inzon1 = app.getSessionHelper().driver.findElement(By.cssSelector("[name^=zones]"));
+        List<String> oldInZones = new ArrayList<String>();
+        oldInZones.add(inzon1.getText());
+        WebElement inzon2 = app.getSessionHelper().driver.findElement(By.cssSelector("[name^=zones]"));
+        List<String> sortedInZones = new ArrayList<String>();
+        sortedInZones.add(inzon2.getText());
+        Collections.sort(sortedInZones, String.CASE_INSENSITIVE_ORDER);
+
+        Assert.assertEquals(oldInZones, sortedInZones);
+
+      }
+      app.getSessionHelper().driver.navigate().back();
 
     }
+  }
+
+  protected void goToGeoZonesPage() {
+    app.getSessionHelper().driver.findElement(By.cssSelector("#box-apps-menu > li:nth-child(6)")).click();
 
   }
 }
 
-//tr:nth-child(2) > td:nth-child(6) - zones

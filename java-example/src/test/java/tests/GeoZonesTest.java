@@ -1,6 +1,5 @@
 package tests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 /**
@@ -12,14 +11,8 @@ public class GeoZonesTest extends TestBase {
   public void testGeoZones() {
     login();
     goToGeoZonesPage();
-    //goToGeoZones();
-    //getZoneListFromCountry();
+    goToGeoZones();
 
-  }
-
-  private void goToGeoZonesPage() {
-    app.getSessionHelper().driver.findElement(By.cssSelector("#box-apps-menu > li:nth-child(6)")).click();
-    app.getSessionHelper().driver.findElement(By.cssSelector("tr:nth-child(n) > td:nth-child(3)"));
   }
 
 
