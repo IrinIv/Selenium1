@@ -1,10 +1,9 @@
 package tests;
 
 import apmanager.AppManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -20,6 +19,7 @@ import java.util.List;
 public class TestBase {
   protected final AppManager app = new AppManager(BrowserType.CHROME);
   private WebDriver driver;
+
 
   @BeforeMethod
   public void setUp() {
@@ -95,7 +95,6 @@ public class TestBase {
 
   protected void goToCountriesPage() {
     app.getSessionHelper().driver.findElement(By.cssSelector("#box-apps-menu > li:nth-child(3)")).click();
-    app.getSessionHelper().driver.findElement(By.cssSelector("tr:nth-child(n) > td:nth-child(3)"));
   }
 
   protected void getCountriesList() {
@@ -115,13 +114,39 @@ public class TestBase {
     }
   }
 
-  protected void getZonesList() {
-    List<WebElement> zones = app.getSessionHelper().driver.findElements(By.cssSelector("tr.row > td:nth-child(6)"));
+  protected void getZoneList() {
+    List<WebElement> zones = app.getSessionHelper().driver.findElements(By.cssSelector(".dataTable > tbody > tr.row"));
     for (WebElement element : zones) {
-      if (element != null ) {
-        element.click();
 
+      List<WebElement> zon = element.findElements(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(6)"));
+      WebElement z = element.findElement(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(6)"));
+      z.getText();
+
+      if (!z.getText().equals("0") ) {
+
+        List<WebElement> edit = element.findElements(By.cssSelector("i.fa.fa-pencil"));
+        WebElement zone = element.findElement(By.cssSelector("i.fa.fa-pencil"));
+        zone.click();
+        List<WebElement> innerzones = app.getSessionHelper().driver.findElements(By.cssSelector("#table-zones > tbody > tr"));
+
+        for (int j = 2; j < innerzones.size(); j++){
+
+          List<WebElement> inzon = app.getSessionHelper().driver.findElements(By.cssSelector(String.format("#table-zones > tbody > tr:nth-child(%s)", j)));
+          WebElement inzon1 = app.getSessionHelper().driver.findElement(By.cssSelector(String.format("#table-zones > tbody > tr:nth-child(%s)", j)));
+          List<String> oldInZones = new ArrayList<String>();
+          oldInZones.add(inzon1.getText());
+          WebElement inzon2 = app.getSessionHelper().driver.findElement(By.cssSelector(String.format("#table-zones > tbody > tr:nth-child(%s)", j)));
+          List<String> sortedInZones = new ArrayList<String>();
+          sortedInZones.add(inzon2.getText());
+          Collections.sort(sortedInZones, String.CASE_INSENSITIVE_ORDER);
+
+          Assert.assertEquals(oldInZones, sortedInZones);
+
+        }
+        app.getSessionHelper().driver.navigate().back();
       }
+
+
     }
 
   }

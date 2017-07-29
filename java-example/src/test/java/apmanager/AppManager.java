@@ -1,5 +1,6 @@
 package apmanager;
 
+import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptExecutor;
 import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.HasCapabilities;
@@ -26,6 +27,8 @@ public class AppManager {
   private WebDriverWait wait;
   private String browser;
   private SessionHelper sessionHelper;
+
+
 
   public AppManager(String browser) {
     this.browser = browser;
