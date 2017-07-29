@@ -118,6 +118,7 @@ public class TestBase {
   protected void getZoneList() {
     List<WebElement> zones = app.getSessionHelper().driver.findElements(By.cssSelector(".dataTable > tbody > tr.row"));
     for (WebElement element : zones) {
+
       List<WebElement> zon = element.findElements(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(6)"));
       WebElement z = element.findElement(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(6)"));
       z.getText();
@@ -144,6 +145,7 @@ public class TestBase {
 
         }
         app.getSessionHelper().driver.navigate().back();
+
       }
 
     }
@@ -175,8 +177,9 @@ public class TestBase {
 
       }
       app.getSessionHelper().driver.navigate().back();
-
+      element = app.getSessionHelper().driver.findElement(By.cssSelector(".dataTable > tbody > tr.row"));
     }
+
   }
 
   protected void goToGeoZonesPage() {
