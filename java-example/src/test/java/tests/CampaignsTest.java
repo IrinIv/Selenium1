@@ -78,12 +78,13 @@ public class CampaignsTest extends TestBase {
       productName.getText();
       WebElement prodregprice = element.findElement(By.cssSelector("#box-product > div > div > div > .regular-price"));
       prodregprice.getText();
+
       prodregprice.getTagName();
       String tagnameProdregprice = prodregprice.getTagName();
       Assert.assertEquals(tagnameProdregprice, "s");
 
       String prodregpricefontsize = prodregprice.getCssValue("font-size");
-      System.out.println(prodregprice);
+      System.out.println(prodregpricefontsize);
       String[] prodregfont_size = prodregpricefontsize.replace("px", "").split("");
       int n = Integer.parseInt(prodregfont_size[0].trim());
       int n2 = Integer.parseInt(prodregfont_size[1].trim());
