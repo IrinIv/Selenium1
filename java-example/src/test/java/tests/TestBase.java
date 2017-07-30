@@ -18,7 +18,7 @@ import java.util.List;
  * Created by IrinaIv on 7/20/2017.
  */
 public class TestBase {
-  protected final AppManager app = new AppManager(BrowserType.FIREFOX);
+  protected final AppManager app = new AppManager(BrowserType.IE);
   private WebDriver driver;
 
 
