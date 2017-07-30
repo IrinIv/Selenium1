@@ -38,7 +38,8 @@ public class CampaignsTest extends TestBase {
       int s = Integer.valueOf(String.valueOf(n) + String.valueOf(n2));
 
       String regpricecolor = (regprice.getCssValue("color"));
-      String[] numbers = regpricecolor.replace("rgba(", "").replace(")", "").split(",");
+      String rdb = Color.fromString(regpricecolor).asRgb();
+      String[] numbers = rdb.replace("rgb(", "").replace(")", "").split(",");
       int r = Integer.parseInt(numbers[0].trim());
       int g = Integer.parseInt(numbers[1].trim());
       int b = Integer.parseInt(numbers[2].trim());
@@ -58,7 +59,8 @@ public class CampaignsTest extends TestBase {
       Assert.assertTrue(s2 > s);
 
       String camppricecolor = (campprice.getCssValue("color"));
-      String[] numbers3 = camppricecolor.replace("rgba(", "").replace(")", "").split(",");
+      String rdb2 = Color.fromString(camppricecolor).asRgb();
+      String[] numbers3 = rdb2.replace("rgb(", "").replace(")", "").split(",");
       int r2 = Integer.parseInt(numbers3[0].trim());
       int g2 = Integer.parseInt(numbers3[1].trim());
       int b2 = Integer.parseInt(numbers3[2].trim());
@@ -90,7 +92,8 @@ public class CampaignsTest extends TestBase {
 
       prodregprice.getCssValue("color");
       String prodregpricecolor = prodregprice.getCssValue("color");
-      String[] numbers2 = prodregpricecolor.replace("rgba(", "").replace(")", "").split(",");
+      String rdb = Color.fromString(prodregpricecolor).asRgb();
+      String[] numbers2 = rdb.replace("rgb(", "").replace(")", "").split(",");
       int r = Integer.parseInt(numbers2[0].trim());
       int g = Integer.parseInt(numbers2[1].trim());
       int b = Integer.parseInt(numbers2[2].trim());
@@ -113,7 +116,8 @@ public class CampaignsTest extends TestBase {
 
       prodcampprice.getCssValue("color");
       String prodcamppricecolor = (prodcampprice.getCssValue("color"));
-      String[] numbers4 = prodcamppricecolor.replace("rgba(", "").replace(")", "").split(",");
+      String rdb2 = Color.fromString(prodcamppricecolor).asRgb();
+      String[] numbers4 = rdb2.replace("rgb(", "").replace(")", "").split(",");
       int r2 = Integer.parseInt(numbers4[0].trim());
       int g2 = Integer.parseInt(numbers4[1].trim());
       int b2 = Integer.parseInt(numbers4[2].trim());
