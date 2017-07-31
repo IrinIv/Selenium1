@@ -18,7 +18,7 @@ import java.util.List;
  * Created by IrinaIv on 7/20/2017.
  */
 public class TestBase {
-  protected final AppManager app = new AppManager(BrowserType.IE);
+  protected final AppManager app = new AppManager(BrowserType.FIREFOX);
   private WebDriver driver;
 
 
@@ -119,7 +119,7 @@ public class TestBase {
     List<WebElement> zones = app.getSessionHelper().driver.findElements(By.cssSelector(".dataTable > tbody > tr.row"));
     for (WebElement element : zones) {
 
-      List<WebElement> zon = element.findElements(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(6)"));
+      //List<WebElement> zon = element.findElements(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(6)"));
       WebElement z = element.findElement(By.cssSelector(".dataTable > tbody > tr.row > td:nth-child(6)"));
       z.getText();
 
@@ -130,7 +130,7 @@ public class TestBase {
         zone.click();
         List<WebElement> innerzones = app.getSessionHelper().driver.findElements(By.cssSelector("#table-zones > tbody > tr"));
 
-        for (int j = 2; j < innerzones.size(); j++){
+        for (int j = 2; j < innerzones.size(); j++) {
 
           List<WebElement> inzon = app.getSessionHelper().driver.findElements(By.cssSelector(String.format("#table-zones > tbody > tr:nth-child(%s)", j)));
           WebElement inzon1 = app.getSessionHelper().driver.findElement(By.cssSelector(String.format("#table-zones > tbody > tr:nth-child(%s)", j)));
@@ -145,12 +145,11 @@ public class TestBase {
 
         }
         app.getSessionHelper().driver.navigate().back();
-
+      }
       }
 
     }
 
-  }
 
   protected void goToGeoZones() {
     List<WebElement> countries = app.getSessionHelper().driver.findElements(By.cssSelector(".dataTable > tbody > tr.row"));
@@ -177,7 +176,6 @@ public class TestBase {
 
       }
       app.getSessionHelper().driver.navigate().back();
-      element = app.getSessionHelper().driver.findElement(By.cssSelector(".dataTable > tbody > tr.row"));
     }
 
   }
