@@ -13,7 +13,7 @@ public class CountriesTest extends TestBase {
     login();
     goToCountriesPage();
     getCountriesList();
-    getZoneList();
+    verifyCountOfZons();
   }
 
 }
