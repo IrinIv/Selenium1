@@ -1,7 +1,9 @@
 package tests;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 
 /**
@@ -29,10 +31,12 @@ public class UserCreateTest extends TestBase {
     app.getSessionHelper().driver.findElement(By.xpath("//*[@id='create-account']//tr[3]/td[1]/input")).sendKeys("34 Short Ave");
     app.getSessionHelper().driver.findElement(By.xpath("//*[@id='create-account']//tr[4]/td[1]/input")).sendKeys("94505");
     app.getSessionHelper().driver.findElement(By.xpath("//*[@id='create-account']//tr[4]/td[2]/input")).sendKeys("Mountain View");
-    WebElement country = app.getSessionHelper().driver.findElement(By.xpath("//*[@id='create-account']//tr[5]/td[1]/span[2]"));
+    WebElement country = app.getSessionHelper().driver.findElement(By.cssSelector(".select2"));
+    country.click();
     country.click();
     WebElement state = app.getSessionHelper().driver.findElement(By.xpath("//*[@id='create-account']//tr[5]/td[2]/select"));
-    state.click();
+    Select selectstate = new Select(state);
+    selectstate.selectByVisibleText("California");
     String email = String.format("email%s@gmail.com", now);
     app.getSessionHelper().driver.findElement(By.xpath("//*[@id='create-account']//tr[6]/td[1]/input")).sendKeys(email);
     app.getSessionHelper().driver.findElement(By.xpath("//*[@id='create-account']//tr[6]/td[2]/input")).sendKeys("6501231234");
