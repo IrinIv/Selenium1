@@ -6,13 +6,19 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.attributeContains;
+import static org.openqa.selenium.support.ui.ExpectedConditions.attributeToBe;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by IrinaIv on 8/3/2017.
@@ -24,12 +30,11 @@ public class ShopCartTest extends TestBase {
   public void testShopCart() throws InterruptedException {
 
     app.getSessionHelper().driver.get("http://localhost/litecart/en/");
-    for(int i = 0; i < 3; i++) {
+
       addNewItemToCart();
-      app.getSessionHelper().driver.navigate().back();
-    }
+      //app.getSessionHelper().driver.navigate().back();
     openCart();
-    for(int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++) {
       removeAllItems();
     }
 
@@ -40,21 +45,12 @@ public class ShopCartTest extends TestBase {
   }
 
   private void openCart() {
-    app.getSessionHelper().driver.findElement(By.cssSelector("#cart > .link"));
+    app.getSessionHelper().driver.findElement(By.cssSelector("#cart > .link")).click();
   }
-
-  private void waitCountOfItems() throws InterruptedException {
-    WebElement quantity = app.getSessionHelper().driver.findElement(By.cssSelector(".quantity"));
-    quantity.getAttribute("value");
-    WebDriverWait wait = new WebDriverWait(app.getSessionHelper().driver, 10);
-    wait.until(visibilityOf(quantity));
-
-  }
-
 
   private void addNewItemToCart() throws InterruptedException {
     List<WebElement> items = app.getSessionHelper().driver.findElements(By.cssSelector(".link > .name"));
-    for (int i = 0; i < 1; i++ ) {
+    for (int i = 1; i <= 3; i++) {
       WebElement firstitem = app.getSessionHelper().driver.findElement(By.cssSelector("a.link > .image-wrapper > .image[alt$='Duck']"));
       firstitem.click();
 
@@ -65,17 +61,20 @@ public class ShopCartTest extends TestBase {
         selectsize.selectByVisibleText("Small");
       }
 
+      WebDriverWait wait = new WebDriverWait(app.getSessionHelper().driver, 10);
+      WebElement quantity = app.getSessionHelper().driver.findElement(By.xpath(".//*[@id='cart']/a[2]/span[1]"));
       app.getSessionHelper().driver.findElement(By.cssSelector(".quantity > button")).click();
-      waitCountOfItems();
-
-      if (isAlertPresent()) {
-        closeAlert();
-      }
-
-
-
-
-      }
+      wait.until(ExpectedConditions.textToBePresentInElement(quantity, (String.format("%s", i))));
+      WebElement newquantity = app.getSessionHelper().driver.findElement(By.xpath(".//*[@id='cart']/a[2]/span[1]"));
+      app.getSessionHelper().driver.navigate().back();
 
     }
+
+    if (isAlertPresent()) {
+      closeAlert();
+    }
+
   }
+
+}
+
