@@ -1,10 +1,7 @@
 package tests;
 
 import apmanager.AppManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -19,7 +16,7 @@ import java.util.List;
  */
 public class TestBase {
   protected final AppManager app = new AppManager(BrowserType.CHROME);
-  private WebDriver driver;
+  protected WebDriver driver;
 
 
   @BeforeMethod
@@ -30,7 +27,7 @@ public class TestBase {
 
   public boolean isElementPresent(By locator) {
     try {
-      driver.findElement(locator);
+      app.getSessionHelper().driver.findElement(locator);
       return true;
     } catch (NoSuchElementException ex) {
       return false;
@@ -43,13 +40,6 @@ public class TestBase {
     app.stop();
   }
 
-  protected WebElement goToRightPage() {
-    return app.getSessionHelper().driver.findElement(By.cssSelector("tr:nth-child(n) > td:nth-child(3)"));
-  }
-
-  protected WebElement getWebElementBox() {
-    return app.getSessionHelper().driver.findElement(By.xpath("//ul[@id='box-apps-menu']"));
-  }
 
   protected void login() {
     app.getSessionHelper().driver.get("http://localhost/litecart/admin/login.php");
@@ -58,10 +48,6 @@ public class TestBase {
     app.getSessionHelper().driver.findElement(By.name("password")).sendKeys("admin");
     app.getSessionHelper().driver.findElement(By.name("login")).click();
   }
-
-  //protected String getH1() {
-  //  return goToRightPage().findElement(By.tagName("h1")).getText();
-  //}
 
 
   protected void getTitleListIsPresent() {
@@ -181,6 +167,20 @@ public class TestBase {
 
       }
     }
+  }
+
+  public boolean isAlertPresent() {
+    try {
+      app.getSessionHelper().driver.switchTo().alert();
+      return true;
+    } catch (NoAlertPresentException e) {
+      return false;
+    }
+  }
+
+  public void closeAlert() {
+
+    app.getSessionHelper().driver.switchTo().alert().accept();
   }
 }
 
