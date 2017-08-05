@@ -46,10 +46,12 @@ public class ShopCartTest extends TestBase {
         Select selectsize = new Select(sizeitem);
         selectsize.selectByVisibleText("Small");
       }
+
       WebDriverWait wait = new WebDriverWait(app.getSessionHelper().driver, 10);
       WebElement quantity = app.getSessionHelper().driver.findElement(By.xpath(".//*[@id='cart']/a[2]/span[1]"));
       app.getSessionHelper().driver.findElement(By.cssSelector(".quantity > button")).click();
-      wait.until(ExpectedConditions.textToBePresentInElement(quantity, (String.format("%s", i))));
+      //wait.until(ExpectedConditions.textToBePresentInElement(quantity, (String.format("%s", i))));
+      wait.until(ExpectedConditions.attributeToBe(quantity, "cursor", "wait"));
       app.getSessionHelper().driver.navigate().back();
 
     }
@@ -70,5 +72,7 @@ public class ShopCartTest extends TestBase {
       wait.until(ExpectedConditions.stalenessOf(itemontable));
     }
   }
-}
+
+  }
+
 
