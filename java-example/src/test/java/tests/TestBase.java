@@ -19,6 +19,7 @@ public class TestBase {
   protected WebDriver driver;
 
 
+
   @BeforeMethod
   public void setUp() {
     app.init();
@@ -33,6 +34,7 @@ public class TestBase {
       return false;
     }
   }
+
 
 
   @AfterMethod
