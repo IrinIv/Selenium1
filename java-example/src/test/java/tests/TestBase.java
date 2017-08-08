@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class TestBase {
   protected final AppManager app = new AppManager(BrowserType.CHROME);
-  protected WebDriver driver;
+  //protected WebDriver driver;
 
 
 
