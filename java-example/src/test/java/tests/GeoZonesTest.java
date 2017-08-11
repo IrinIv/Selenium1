@@ -9,7 +9,7 @@ public class GeoZonesTest extends TestBase {
 
   @Test
   public void testGeoZones() {
-    login();
+    //login();
     goToGeoZonesPage();
     goToGeoZones();
 

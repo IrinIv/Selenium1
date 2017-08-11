@@ -1,5 +1,6 @@
 package apmanager;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -10,5 +11,13 @@ public class SessionHelper {
 
   public SessionHelper(WebDriver driver) {
     this.driver = driver;
+  }
+
+  protected void login(String username, String password) {
+    //driver.get("http://localhost/litecart/admin/login.php");
+    driver.findElement(By.name("username")).sendKeys(username);
+    driver.findElement(By.name("username")).click();
+    driver.findElement(By.name("password")).sendKeys(password);
+    driver.findElement(By.name("login")).click();
   }
 }

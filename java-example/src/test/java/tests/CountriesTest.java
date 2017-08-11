@@ -10,7 +10,7 @@ public class CountriesTest extends TestBase {
   @Test
   public void testCountries() {
 
-    login();
+    //login();
     goToCountriesPage();
     getCountriesList();
     verifyCountOfZons();

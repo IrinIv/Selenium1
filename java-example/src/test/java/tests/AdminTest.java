@@ -11,7 +11,7 @@ public class AdminTest extends TestBase {
 
   public void testAdminPanel() {
 
-    login();
+    //login();
     getTitleListIsPresent();
 
   }

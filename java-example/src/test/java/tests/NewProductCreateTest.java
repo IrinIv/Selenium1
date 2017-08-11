@@ -18,7 +18,7 @@ public class NewProductCreateTest extends TestBase {
 
   @Test
   public void testNewProductCreate() {
-    login();
+    //login();
     addNewProduct();
     fillGeneralTab();
     fillInformationTab();

@@ -18,7 +18,7 @@ public class LinksCountriesTest extends TestBase {
   @Test
   public void testLinksCountries() throws InterruptedException {
 
-    login();
+    //login();
     goToCountriesPage();
     goToEditPage();
 

@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +22,7 @@ public class TestBase {
 
 
   @BeforeMethod
-  public void setUp() {
+  public void setUp() throws IOException {
     app.init();
   }
 
@@ -43,13 +44,6 @@ public class TestBase {
   }
 
 
-  protected void login() {
-    app.getSessionHelper().driver.get("http://localhost/litecart/admin/login.php");
-    app.getSessionHelper().driver.findElement(By.name("username")).sendKeys("admin");
-    app.getSessionHelper().driver.findElement(By.name("username")).click();
-    app.getSessionHelper().driver.findElement(By.name("password")).sendKeys("admin");
-    app.getSessionHelper().driver.findElement(By.name("login")).click();
-  }
 
 
   protected void getTitleListIsPresent() {
