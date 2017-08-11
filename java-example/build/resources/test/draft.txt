@@ -1,0 +1,4 @@
+https://irinaivanova2:z4wTvB3NEvkJ3APHWhY3@hub-cloud.browserstack.com/wd/hub
+
+web.baseUrl = http://10.0.0.41/litecart/admin/login.php/
+selenium.server = http://10.0.0.41:4444/wd/hub
