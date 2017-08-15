@@ -1,10 +1,7 @@
 package apmanager;
 
 import com.google.common.collect.ImmutableMap;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.HasCapabilities;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -12,6 +9,8 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileReader;
@@ -25,11 +24,29 @@ import java.util.concurrent.TimeUnit;
  * Created by IrinaIv on 7/20/2017.
  */
 public class AppManager {
-  private WebDriver driver;
+  private EventFiringWebDriver driver;
   private WebDriverWait wait;
   private String browser;
   private SessionHelper sessionHelper;
   private final Properties properties;
+
+
+  public static class MyListener extends AbstractWebDriverEventListener {
+    @Override
+    public void onException(Throwable throwable, WebDriver driver) {
+      System.out.println(throwable);
+    }
+
+    @Override
+    public void beforeFindBy(By by, WebElement element, WebDriver driver) {
+      System.out.println(by);
+    }
+
+    @Override
+    public void afterFindBy(By by, WebElement element, WebDriver driver) {
+      System.out.println(by + " found");
+    }
+  }
 
 
 
@@ -38,26 +55,26 @@ public class AppManager {
     properties = new Properties();
   }
 
-
   public SessionHelper getSessionHelper() {
     return sessionHelper;
   }
 
   public void init() throws IOException {
-    String target = System.getProperty("target", "remote");
+    String target = System.getProperty("target", "local");
     properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
 
     DesiredCapabilities caps = new DesiredCapabilities();
     if ("".equals(properties.getProperty("selenium.server"))) {
       if (browser.equals(BrowserType.CHROME)) {
-        driver = new ChromeDriver();
+        driver = new EventFiringWebDriver(new ChromeDriver());
+        driver.register(new MyListener());
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
-        System.out.println(((HasCapabilities) driver).getCapabilities());
+        //System.out.println(((HasCapabilities) driver).getCapabilities());
       }
       if (browser.equals(BrowserType.IE)) {
-        driver = new InternetExplorerDriver();
-        System.out.println(((HasCapabilities) driver).getCapabilities());
+        driver = new EventFiringWebDriver(new InternetExplorerDriver());
+        //System.out.println(((HasCapabilities) driver).getCapabilities());
       }
       if (browser.equals(BrowserType.FIREFOX)) {
         //driver = new FirefoxDriver(new FirefoxOptions().setLegacy(true)); //Firefox ESR
@@ -71,14 +88,14 @@ public class AppManager {
                 .addPreference("browser.cache.disk.enable", false)
                 .addCapabilities(new DesiredCapabilities(
                         ImmutableMap.of("pageLoadStrategy", "eager")));
-        driver = new FirefoxDriver(options);
-        System.out.println(((HasCapabilities) driver).getCapabilities());
+        driver = new EventFiringWebDriver(new FirefoxDriver(options));
+        //System.out.println(((HasCapabilities) driver).getCapabilities());
       }
     } else {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName(browser);
         capabilities.setPlatform(Platform.fromString(System.getProperty("platform", "win8")));
-        driver = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
+        driver = new EventFiringWebDriver(new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities));
 
     }
 

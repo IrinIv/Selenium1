@@ -16,16 +16,13 @@ import java.util.List;
  * Created by IrinaIv on 7/20/2017.
  */
 public class TestBase {
-  protected final AppManager app = new AppManager(BrowserType.FIREFOX);
+  protected final AppManager app = new AppManager(BrowserType.CHROME);
   //protected WebDriver driver;
-
-
 
   @BeforeMethod
   public void setUp() throws IOException {
     app.init();
   }
-
 
   public boolean isElementPresent(By locator) {
     try {
@@ -36,15 +33,10 @@ public class TestBase {
     }
   }
 
-
-
   @AfterMethod
   public void tearDown() {
     app.stop();
   }
-
-
-
 
   protected void getTitleListIsPresent() {
     List<WebElement> menuItems = app.getSessionHelper().driver.findElements(By.id("app-"));
@@ -63,7 +55,6 @@ public class TestBase {
     }
   }
 
-
   protected void getStickersIsPresent() {
     List<WebElement> elements = app.getSessionHelper().driver.findElements(By.xpath("//div[@class='image-wrapper']"));
     for (WebElement element : elements) {
@@ -74,7 +65,6 @@ public class TestBase {
       System.out.println(name.getText());
     }
   }
-
 
   protected void goToCountriesPage() {
     app.getSessionHelper().driver.findElement(By.cssSelector("#box-apps-menu > li:nth-child(3)")).click();
