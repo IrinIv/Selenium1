@@ -1,16 +1,16 @@
 package apmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Created by IrinaIv on 7/20/2017.
  */
 public class SessionHelper {
-  public WebDriver driver;
+  public EventFiringWebDriver driver;
 
-  public SessionHelper(WebDriver driver) {
+  public SessionHelper(EventFiringWebDriver driver) {
     this.driver = driver;
   }
 

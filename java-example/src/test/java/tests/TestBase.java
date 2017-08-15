@@ -55,6 +55,8 @@ public class TestBase {
     }
   }
 
+
+
   protected void getStickersIsPresent() {
     List<WebElement> elements = app.getSessionHelper().driver.findElements(By.xpath("//div[@class='image-wrapper']"));
     for (WebElement element : elements) {

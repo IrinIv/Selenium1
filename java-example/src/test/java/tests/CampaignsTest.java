@@ -19,6 +19,8 @@ public class CampaignsTest extends TestBase {
   public void testCampaigs() {
 
     app.getSessionHelper().driver.get("http://localhost/litecart/en/");
+    System.out.println(app.getSessionHelper().driver.manage().logs().getAvailableLogTypes());
+    app.getSessionHelper().driver.manage().logs().get("browser").forEach(l -> System.out.println(l));
     List<WebElement> campaings = app.getSessionHelper().driver.findElements(By.cssSelector("#box-campaigns > .content"));
     List<String> dataCampaingsPage = new ArrayList<String>();
     List<String> dataProductPage = new ArrayList<String>();
