@@ -2,8 +2,14 @@ package tests;
 
 import com.google.common.io.Files;
 
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import net.lightbody.bmp.client.ClientUtil;
+import net.lightbody.bmp.core.har.Har;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,6 +31,7 @@ public class MyFirstTest {
 
   private EventFiringWebDriver driver;
   private WebDriverWait wait;
+  public BrowserMobProxy proxy;
 
   public static class MyListener extends AbstractWebDriverEventListener {
 
@@ -53,7 +60,12 @@ public class MyFirstTest {
 
   @BeforeMethod
   public void start() {
-    driver = new EventFiringWebDriver(new ChromeDriver());
+    proxy = new BrowserMobProxyServer();
+    proxy.start(0);
+    Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+    DesiredCapabilities capabilities = new DesiredCapabilities();
+    capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
+    driver = new EventFiringWebDriver(new ChromeDriver(capabilities));
     driver.register(new MyListener());
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     wait = new WebDriverWait(driver, 10);
@@ -63,12 +75,14 @@ public class MyFirstTest {
   @Test
   public void testMyFirst() {
 
-    driver.get("http://google.com");
-    driver.findElement(By.name("q")).sendKeys("webdriver");
+    proxy.newHar();
+    driver.get("https://selenium2.ru");
+    //driver.findElement(By.name("q")).sendKeys("webdriver");
     //wait.until(visibilityOfElementLocated(By.name("btnG")));
-    driver.findElement(By.name("btnK")).click();
-    wait.until(titleIs("webdriver - Google Search"));
-
+    //driver.findElement(By.name("btnK")).click();
+    //wait.until(titleIs("webdriver - Google Search"));
+    Har har = proxy.endHar();
+    har.getLog().getEntries().forEach(l -> System.out.println(l.getResponse().getStatus() + " :" + l.getRequest().getUrl()));
   }
 
   @AfterMethod

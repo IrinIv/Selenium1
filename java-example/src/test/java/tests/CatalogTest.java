@@ -1,23 +1,26 @@
 package tests;
 
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.core.har.Har;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by IrinaIv on 8/15/2017.
  */
 public class CatalogTest extends TestBase {
 
+
   @Test
   public void testCatalog() {
-
     //login();
     verifyItemPage();
+
   }
 
   private void verifyItemPage() {

@@ -2,12 +2,14 @@ package apmanager;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Files;
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import net.lightbody.bmp.client.ClientUtil;
+import net.lightbody.bmp.core.har.Har;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
@@ -37,6 +39,7 @@ public class AppManager {
   private String browser;
   private SessionHelper sessionHelper;
   private final Properties properties;
+
 
 
   public static class MyListener extends AbstractWebDriverEventListener {
@@ -83,6 +86,7 @@ public class AppManager {
     DesiredCapabilities caps = new DesiredCapabilities();
     if ("".equals(properties.getProperty("selenium.server"))) {
       if (browser.equals(BrowserType.CHROME)) {
+
         DesiredCapabilities cap = DesiredCapabilities.chrome();
         LoggingPreferences logPrefs = new LoggingPreferences();
         logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
