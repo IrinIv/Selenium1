@@ -123,8 +123,8 @@ public class AppManager {
     driver.get(properties.getProperty("web.baseUrl"));
     sessionHelper = new SessionHelper(driver);
     sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"));
-    System.out.println(driver.manage().logs().getAvailableLogTypes());
-    driver.manage().logs().get("performance").forEach(l -> System.out.println(l));
+
+
   }
 
   public void stop() {
