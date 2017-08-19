@@ -39,34 +39,35 @@ public class AppManager {
   private String browser;
   private SessionHelper sessionHelper;
   private final Properties properties;
+  private ShopingHelper shopingHelper;
+  private CartHelper cartHelper;
 
 
-
-  public static class MyListener extends AbstractWebDriverEventListener {
-
-    @Override
-    public void beforeFindBy(By by, WebElement element, WebDriver driver) {
-      System.out.println(by);
-    }
-
-    @Override
-    public void afterFindBy(By by, WebElement element, WebDriver driver) {
-      System.out.println(by + " found");
-    }
-
-    @Override
-    public void onException(Throwable throwable, WebDriver driver) {
-      System.out.println(throwable);
-      File tmp = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-      File screen = new File("screen-" + System.currentTimeMillis() + ".png");
-      try {
-        Files.copy(tmp, screen);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      System.out.println(screen);
-    }
-  }
+//  public static class MyListener extends AbstractWebDriverEventListener {
+//
+//    @Override
+//    public void beforeFindBy(By by, WebElement element, WebDriver driver) {
+//      System.out.println(by);
+//    }
+//
+//    @Override
+//    public void afterFindBy(By by, WebElement element, WebDriver driver) {
+//      System.out.println(by + " found");
+//    }
+//
+//    @Override
+//    public void onException(Throwable throwable, WebDriver driver) {
+//      System.out.println(throwable);
+//      File tmp = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+//      File screen = new File("screen-" + System.currentTimeMillis() + ".png");
+//      try {
+//        Files.copy(tmp, screen);
+//      } catch (IOException e) {
+//        e.printStackTrace();
+//      }
+//      System.out.println(screen);
+//    }
+//  }
 
 
 
@@ -79,6 +80,14 @@ public class AppManager {
     return sessionHelper;
   }
 
+  public ShopingHelper getShopingHelper() {
+    return shopingHelper;
+  }
+
+  public CartHelper getCartHelper() {
+    return cartHelper;
+  }
+
   public void init() throws IOException {
     String target = System.getProperty("target", "local");
     properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
@@ -87,12 +96,12 @@ public class AppManager {
     if ("".equals(properties.getProperty("selenium.server"))) {
       if (browser.equals(BrowserType.CHROME)) {
 
-        DesiredCapabilities cap = DesiredCapabilities.chrome();
-        LoggingPreferences logPrefs = new LoggingPreferences();
-        logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
-        cap.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
-        driver = new EventFiringWebDriver(new ChromeDriver(cap));
-        driver.register(new MyListener());
+        //DesiredCapabilities cap = DesiredCapabilities.chrome();
+        //LoggingPreferences logPrefs = new LoggingPreferences();
+        //logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+        //cap.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+        driver = new EventFiringWebDriver(new ChromeDriver());
+       // driver.register(new MyListener());
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
         //System.out.println(((HasCapabilities) driver).getCapabilities());
@@ -124,10 +133,11 @@ public class AppManager {
 
     }
 
-    driver.get(properties.getProperty("web.baseUrl"));
+    //driver.get(properties.getProperty("web.baseUrl"));
     sessionHelper = new SessionHelper(driver);
-    sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"));
-
+    //sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"));
+    shopingHelper = new ShopingHelper(driver);
+    cartHelper = new CartHelper(driver);
 
   }
 

@@ -24,14 +24,7 @@ public class TestBase {
     app.init();
   }
 
-  public boolean isElementPresent(By locator) {
-    try {
-      app.getSessionHelper().driver.findElement(locator);
-      return true;
-    } catch (NoSuchElementException ex) {
-      return false;
-    }
-  }
+
 
 
 

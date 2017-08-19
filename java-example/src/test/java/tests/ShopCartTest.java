@@ -26,53 +26,16 @@ import java.util.concurrent.TimeUnit;
 public class ShopCartTest extends TestBase {
 
 
-
   @Test
   public void testShopCart() throws InterruptedException {
-    app.getSessionHelper().driver.get("http://localhost/litecart/en/");
-    addNewItemToCart();
-    openCart();
-    removeAllItems();
-    app.getSessionHelper().driver.navigate().back();
+
+    app.getShopingHelper().goToStoryPage();
+    app.getShopingHelper().addNewItemToCart();
+    app.getCartHelper().openCart();
+    app.getCartHelper().removeAllItems();
+    app.getShopingHelper().driver.navigate().back();
   }
 
-  private void addNewItemToCart() throws InterruptedException {
-    List<WebElement> items = app.getSessionHelper().driver.findElements(By.cssSelector(".link > .name"));
-    for (int i = 1; i <= 3; i++) {
-      WebElement firstitem = app.getSessionHelper().driver.findElement(By.cssSelector("a.link > .image-wrapper > .image[alt$='Duck']"));
-      firstitem.click();
-      if (isElementPresent(By.cssSelector(".options>select"))) {
-        WebElement sizeitem = app.getSessionHelper().driver.findElement(By.cssSelector(".options>select"));
-        Select selectsize = new Select(sizeitem);
-        selectsize.selectByVisibleText("Small");
-      }
-
-      WebDriverWait wait = new WebDriverWait(app.getSessionHelper().driver, 10);
-      WebElement quantity = app.getSessionHelper().driver.findElement(By.xpath(".//*[@id='cart']/a[2]/span[1]"));
-      app.getSessionHelper().driver.findElement(By.cssSelector(".quantity > button")).click();
-      //wait.until(ExpectedConditions.textToBePresentInElement(quantity, (String.format("%s", i))));
-      wait.until(ExpectedConditions.attributeToBe(quantity, "cursor", "wait"));
-      app.getSessionHelper().driver.navigate().back();
-
-    }
-  }
-
-  private void openCart() {
-    app.getSessionHelper().driver.findElement(By.cssSelector("#cart > .link")).click();
-  }
-
-  private void removeAllItems() {
-    WebDriverWait wait = new WebDriverWait(app.getSessionHelper().driver, 10);
-    List<WebElement> items = app.getSessionHelper().driver.findElements(By.cssSelector(".item>form>div>p>button[name='remove_cart_item']"));
-    for (int i = 0; i < items.size(); i++) {
-      List<WebElement> formitems = app.getSessionHelper().driver.findElements(By.cssSelector(".dataTable.rounded-corners>tbody>tr>td.item"));
-      WebElement itemontable = app.getSessionHelper().driver.findElement(By.cssSelector(String.format(".dataTable.rounded-corners>tbody>tr>td.item", i)));
-      wait.until(visibilityOf(itemontable));
-      app.getSessionHelper().driver.findElement(By.cssSelector(".item>form>div>p>button[name='remove_cart_item']")).click();
-      wait.until(ExpectedConditions.stalenessOf(itemontable));
-    }
-  }
-
-  }
+}
 
 
