@@ -16,7 +16,7 @@ import java.util.List;
 public class CampaignsTest extends TestBase {
 
   @Test
-  public void testCampaigs() {
+  public void testCampaings() {
 
     app.getSessionHelper().driver.get("http://localhost/litecart/en/");
     System.out.println(app.getSessionHelper().driver.manage().logs().getAvailableLogTypes());
